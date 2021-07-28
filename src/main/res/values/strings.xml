@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notifications</string>
+    <string name="app_name">NotificationImage</string>
     <string name="show_notification">show notification</string>
     <string name="from_notificaton">from notificaton</string>
 </resources>
