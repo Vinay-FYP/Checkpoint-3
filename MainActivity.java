@@ -1,66 +1,65 @@
-package com.example.weater3;
+package com.example.firebase_codewithtea;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Pair;
 import android.view.View;
-import android.widget.EditText;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editText;
-    TextView textView;
+    private static int SPLASH_SCREEN = 5000;
+
+    //Variables
+    Animation topAnim, botAnim;
+
+    ImageView image;
+    TextView logo, slogan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //hide status bar in the app on the splash screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.et);
-        textView = findViewById(R.id.tv);
+        //animations
+        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
+        botAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
-    }
+        image = findViewById(R.id.imageView);
+        logo = findViewById(R.id.textView);
+        slogan = findViewById(R.id.textView2);
 
-    public void get(View view){
-        String api_key = "718198a42149daae22c033622a23ca00";
-        String city = editText.getText().toString();
-        String url = "https://api.openweathermap.org/data/2.5/weather?q="+ city + "&appid=718198a42149daae22c033622a23ca00";
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        //assign animations to the widgets
+        image.setAnimation(topAnim);
+        logo.setAnimation(botAnim);
+        slogan.setAnimation(botAnim);
+
+        //call the splash screen
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject object =  response.getJSONObject("main");
-                    String temperature = object.getString("temp");
-                    textView.setText(temperature);
-                    Double temp= Double.parseDouble(temperature)-273.15;
-                    textView.setText("temperature : " + temp.toString().substring(0,5)+ "°C") ;
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+
+                Pair [] p = new Pair[2];
+                p[0] = new Pair<View, String>(image, "logo_image");
+                p[1] = new Pair<View, String>(logo, "logo_text");
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, p);
+                    startActivity(intent, options.toBundle());
                 }
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "error, try again and check city name", Toast.LENGTH_LONG).show();
-
-            }
-        });
-        queue.add(request);
-
-
+        }, SPLASH_SCREEN);
     }
 }
