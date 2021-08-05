@@ -10,7 +10,9 @@ I then worked on notifications and thhen some animation and design projects to s
 
 I worked from material.io and follwed youtubers Tutorials the links below are ones i found most helpful but I looked at many others across youtube and the internet.
 https://www.youtube.com/watch?v=LOcD1evBcSA
+
 https://www.youtube.com/channel/UCnKhcV7frITmrYbIU5MrMZw
+
 https://material.io/components/cards/android
 
 
