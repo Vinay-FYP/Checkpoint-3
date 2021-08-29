@@ -16,4 +16,5 @@ https://www.youtube.com/channel/UCnKhcV7frITmrYbIU5MrMZw
 https://material.io/components/cards/android
 
 
-
+As I finished up y app I tried to implement a news feature using retrofit and the newsapi platform. 
+https://www.youtube.com/watch?v=9oNZAzIhL7s&list=RDCMUCFOcbpcqG-f7Ootft8zKWzw&index=3
